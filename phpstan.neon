@@ -1,0 +1,9 @@
+parameters:
+	level: 6
+	paths:
+		- src/
+	scanFiles:
+	    - vendor/php-stubs/wordpress-tests-stubs/wordpress-tests-stubs.php
+	treatPhpDocTypesAsCertain: false
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
