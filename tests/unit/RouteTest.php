@@ -32,6 +32,16 @@ class RouteTest extends TestCase
     public function testGetRewriteRule(): void
     {
         $this->assertEquals(
+            ['product(?:/([-\w]+))?/?$' => 'index.php?' . Utility::QUERY_VAR . '=getProductByName'],
+            $this->route->getRewriteRule()
+        );
+    }
+
+    public function testGetRewriteRuleWithSetQueryVar(): void
+    {
+        $this->route->setQueryVar('name', 1);
+
+        $this->assertEquals(
             ['product(?:/([-\w]+))?/?$' => 'index.php?name=$matches[1]&' . Utility::QUERY_VAR . '=getProductByName'],
             $this->route->getRewriteRule()
         );
@@ -39,7 +49,7 @@ class RouteTest extends TestCase
 
     public function testBindRegexToParam(): void
     {
-        $this->route->whereNumeric('name');
+        $this->route->whereNumeric('name')->setQueryVar('name', 1);
 
         $this->assertEquals(
             ['product(?:/([0-9]+))?/?$' => 'index.php?name=$matches[1]&' . Utility::QUERY_VAR . '=getProductByName'],

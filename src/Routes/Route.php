@@ -185,8 +185,6 @@ class Route extends RouteBase
                 $key = Str::replace('?', '', $key);
             }
 
-            $this->setQueryVar($key, $i + 1);
-
             $regex = $this->parseParamRegex($key, $isOptional);
             $match = $isOptional ? '/' . $match : $match;
 

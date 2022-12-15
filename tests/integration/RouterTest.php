@@ -28,7 +28,7 @@ class RouterTest extends WP_UnitTestCase
 
         $this->router->addRoute($this->routeBase . '/{name?}', static function (): void {
             echo 'foo';
-        })->name('getProductByName');
+        })->setQueryVar('name', 1)->name('getProductByName');
 
         do_action('init');
     }
