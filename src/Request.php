@@ -15,13 +15,12 @@ class Request implements IRequest
 {
     protected HttpRequestContract $httpRequest;
     protected ?IRoute $route = null;
-    protected Finder $locator;
+    protected Finder $finder;
 
-    public function __construct(HttpRequestContract $httpRequest)
+    public function __construct(HttpRequestContract $httpRequest, ?Finder $finder = null)
     {
         $this->httpRequest = $httpRequest;
-
-        $this->locator = new Finder($this->wp());
+        $this->finder      = $finder ?? new Finder();
     }
 
     public function getHttpRequest(): HttpRequestContract
@@ -79,6 +78,6 @@ class Request implements IRequest
 
     public function getControllerFinder(): Finder
     {
-        return $this->locator;
+        return $this->finder;
     }
 }
