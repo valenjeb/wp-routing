@@ -37,6 +37,20 @@ class RouteTest extends TestCase
         );
     }
 
+    public function testGetParametrizedPattern(): void
+    {
+        $actual = $this->route->getParametrizedRegexPattern();
+
+        $this->assertEquals('product(?:\/(?P<name>[-\w]+))\/?$', $actual);
+    }
+
+    public function testGetParamsFromPattern(): void
+    {
+        $acturl = $this->route->getParamsFromPattern('product/foo');
+
+        $this->assertEquals(['name' => 'foo'], $acturl);
+    }
+
     public function testGetRewriteRuleWithSetQueryVar(): void
     {
         $this->route->setQueryVar('name', 1);

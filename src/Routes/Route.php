@@ -16,6 +16,7 @@ use RuntimeException;
 use Throwable;
 
 use function add_filter;
+use function array_filter;
 use function array_keys;
 use function array_map;
 use function call_user_func;
@@ -24,11 +25,16 @@ use function is_array;
 use function is_callable;
 use function is_int;
 use function is_object;
+use function is_string;
 use function ltrim;
+use function preg_match;
 use function preg_match_all;
 use function rtrim;
 use function sprintf;
 use function str_replace;
+
+use const ARRAY_FILTER_USE_KEY;
+use const PREG_UNMATCHED_AS_NULL;
 
 class Route extends RouteBase
 {
@@ -52,7 +58,6 @@ class Route extends RouteBase
      */
     protected array $queryVarCallbacks = [];
     protected string $rewriteRule;
-    protected string $regex;
     protected bool $patternParsed = false;
     protected IContainer $container;
     protected IResponse $response;
@@ -130,7 +135,7 @@ class Route extends RouteBase
     /** @return array<string, string> */
     public function getRewriteRule(): array
     {
-        return [$this->parsePattern() => $this->generateRewriteRule()];
+        return [$this->getRegexPattern() => $this->generateRewriteRule()];
     }
 
     /**
@@ -170,13 +175,13 @@ class Route extends RouteBase
         return $rewrite->preg_index($int);
     }
 
-    protected function parsePattern(): string
+    protected function getRegexPattern(): string
     {
         $pattern = $this->pattern;
 
         preg_match_all($this->patternParamRegex, $pattern, $matches);
 
-        foreach ($matches[0] as $i => $match) {
+        foreach ($matches[0] as $match) {
             $key = str_replace(['{', '}'], [''], $match);
 
             $isOptional = Str::endsWith($key, '?');
@@ -192,6 +197,41 @@ class Route extends RouteBase
         }
 
         return $pattern . '/?$';
+    }
+
+    public function getParametrizedRegexPattern(): string
+    {
+        $pattern = $this->pattern;
+
+        preg_match_all($this->patternParamRegex, $pattern, $matches);
+
+        foreach ($matches[0] as $match) {
+            $key = str_replace(['{', '}'], [''], $match);
+
+            $isOptional = Str::endsWith($key, '?');
+
+            if ($isOptional) {
+                $key = Str::replace('?', '', $key);
+            }
+
+            $regex = $this->parameterizeRegex($key, $isOptional);
+            $regex = $isOptional ? $regex : '\/' . $regex;
+
+            $pattern = str_replace('/' . $match, $regex, $pattern);
+        }
+
+        return $pattern . '\/?$';
+    }
+
+    /** @return array<string, string> */
+    public function getParamsFromPattern(string $pattern): array
+    {
+        $regex = $this->getParametrizedRegexPattern();
+        preg_match('/' . $regex . '/', $pattern, $matches, PREG_UNMATCHED_AS_NULL);
+
+        return array_filter($matches, static function ($key) {
+            return is_string($key);
+        }, ARRAY_FILTER_USE_KEY);
     }
 
     /** @inheritdoc  */
@@ -264,6 +304,11 @@ class Route extends RouteBase
             return;
         }
 
+        $urlParams = $this->getParamsFromPattern($request->wp()->request);
+        if (! empty($urlParams)) {
+            $this->setParameters($urlParams);
+        }
+
         $params = $request->getQueryVars() + $this->getParameters();
 
         try {
@@ -321,5 +366,12 @@ class Route extends RouteBase
     public function getParsedQueryVars(): array
     {
         return array_map(static fn (callable $cb) => call_user_func($cb), $this->queryVarCallbacks);
+    }
+
+    private function parameterizeRegex(string $key, bool $isOptional): string
+    {
+        $regex = $this->mapping[$key] ?? '[-\w]+';
+
+        return $isOptional ? '(?:\/(?P<' . $key . '>' . $regex . '))' : '(?P<' . $key . '>' . $regex . ')';
     }
 }
