@@ -99,13 +99,13 @@ class Router
     }
 
     /** @throws RouteNotFoundException */
-    public function getWebRoute(string $name): IRoute
+    public function getWebRoute(string $name): Route
     {
         return $this->webRoutes->get($name);
     }
 
     /** @throws RouteNotFoundException */
-    public function getAjaxRoute(string $name): IRoute
+    public function getAjaxRoute(string $name): Ajax
     {
         return $this->ajaxRoutes->get($name);
     }
