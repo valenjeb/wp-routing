@@ -9,6 +9,7 @@ use Devly\Exceptions\AbortException;
 use Devly\Utils\Pipeline;
 use Devly\Utils\Str;
 use Devly\WP\Routing\Contracts\IRequest;
+use Devly\WP\Routing\Contracts\IResponse;
 use Devly\WP\Routing\Utility;
 use Nette\Http\Response;
 use RuntimeException;
@@ -53,6 +54,8 @@ class Route extends RouteBase
     protected string $rewriteRule;
     protected string $regex;
     protected bool $patternParsed = false;
+    protected IContainer $container;
+    protected IResponse $response;
 
     /** @param callable|class-string|string|array<class-string|object, string>|null $callback */
     public function __construct(string $pattern, $callback = null)
@@ -249,19 +252,18 @@ class Route extends RouteBase
             $request->setQueryVar(Utility::getPlaceholderPageQueryVars());
         }
 
-        add_filter('template_include', function (string $template) use ($container) {
-            return $this->execute($template, $container);
-        });
+        $this->container = $container;
+
+        add_action('template_redirect', [$this, 'execute']);
     }
 
-    protected function execute(string $template, IContainer $container): string
+    public function execute(): void
     {
-        $request    = $container[IRequest::class];
-        $controller = $this->matchController($request);
-//        echo '<pre>'; var_dump($GLOBALS['wp_query']); echo '</pre>';
+        $request    = $this->container[IRequest::class];
+        $controller = $this->controller() ?? $request->matchController();
 
         if ($controller === null) {
-            return $template;
+            return;
         }
 
         $params = $request->getQueryVars() + $this->getParameters();
@@ -270,33 +272,38 @@ class Route extends RouteBase
             $controller = $this->normalizeController($controller);
 
             if (is_callable($controller)) {
-                $response = $container->call($controller, $params);
+                $response = $this->container->call($controller, $params);
             } else {
                 [$class, $method] = $controller;
 
-                $object = is_object($class) ? $class : $container->makeWith($class, $params);
+                $object = is_object($class) ? $class : $this->container->makeWith($class, $params);
 
-                $response = $container->call([$object, $method], $params);
+                $response = $this->container->call([$object, $method], $params);
             }
         } catch (Throwable $e) {
-            throw new RuntimeException(
-                sprintf('An error occurred during route "%s" execution.', $this->name()),
-                $e->getCode(),
-                $e
-            );
+            throw new RuntimeException(sprintf('An error occurred during route "%s" execution.', $this->name()), 0, $e);
         }
 
         if (empty($response)) {
-            return $template;
+            return;
         }
 
         try {
-            $response = $this->ensureResponse($response);
+            $this->response = $this->ensureResponse($response);
         } catch (AbortException $e) {
             throw new RuntimeException(sprintf('Route "%s" returned invalid response.', $this->name()));
         }
 
-        $response->send($container[IRequest::class], $container[Response::class]);
+        add_filter('template_include', [$this, 'sendTemplate'], 10);
+    }
+
+    public function sendTemplate(string $template): string
+    {
+        if (! isset($this->response)) {
+            return $template;
+        }
+
+        $this->response->send($this->container[IRequest::class], $this->container[Response::class]);
 
         return Utility::EMPTY_PLACEHOLDER;
     }
@@ -316,15 +323,5 @@ class Route extends RouteBase
     public function getParsedQueryVars(): array
     {
         return array_map(static fn (callable $cb) => call_user_func($cb), $this->queryVarCallbacks);
-    }
-
-    /** @return array<class-string|object, string>|callable|string|null */
-    protected function matchController(IRequest $request)
-    {
-        if (is_404()) {
-            return $request->getControllerFinder()->get404Controller();
-        }
-
-        return $this->controller() ?: $request->getControllerFinder()->matchController();
     }
 }
