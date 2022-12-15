@@ -13,7 +13,7 @@ use function is_callable;
 trait HasController
 {
     /** @var  callable|string|array{class-string|object, string}|null */
-    protected $controller;
+    protected $controller = null;
 
     /** @inheritdoc */
     public function controller($callback = null)

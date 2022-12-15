@@ -25,7 +25,7 @@ interface IRoute
      *                                                                                             to retrieve the configured
      *                                                                                             controller
      *
-     * @return callable|string|array{class-string|object, string}|static
+     * @return callable|string|array{class-string|object, string}|static|null
      */
     public function controller($callback = null);
 
