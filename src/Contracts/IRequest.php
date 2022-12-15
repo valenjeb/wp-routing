@@ -54,4 +54,6 @@ interface IRequest
     public function setRoute(IRoute $route): void;
 
     public function getControllerFinder(): Finder;
+
+    public function matchController(): ?string;
 }
