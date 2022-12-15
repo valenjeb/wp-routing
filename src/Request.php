@@ -80,4 +80,9 @@ class Request implements IRequest
     {
         return $this->finder;
     }
+
+    public function matchController(): ?string
+    {
+        return $this->getControllerFinder()->match();
+    }
 }
