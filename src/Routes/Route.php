@@ -295,6 +295,7 @@ class Route extends RouteBase
         add_action('template_redirect', [$this, 'execute']);
     }
 
+    /** @internal */
     public function execute(): void
     {
         $request    = $this->container[IRequest::class];
@@ -340,6 +341,7 @@ class Route extends RouteBase
         add_filter('template_include', [$this, 'sendTemplate'], 10);
     }
 
+    /** @internal */
     public function sendTemplate(string $template): string
     {
         if (! isset($this->response)) {

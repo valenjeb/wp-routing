@@ -151,6 +151,8 @@ class Router
      * Announce to other plugins that it's time to create rules
      * Action: init
      *
+     * @internal
+     *
      * @uses do_action() Calls 'devly_router_alter_routes'
      */
     public function registerWebRoutes(): void
@@ -247,6 +249,7 @@ class Router
         flush_rewrite_rules();
     }
 
+    /** @internal */
     public function parseRequest(WP $wp): void
     {
         if (is_admin() || $this->routeProcessed) {
@@ -278,6 +281,7 @@ class Router
         $route->run($this->container);
     }
 
+    /** @internal */
     public function parseAjaxRequest(): void
     {
         if (! wp_doing_ajax() || ! isset($_REQUEST['action'])) {
@@ -301,6 +305,7 @@ class Router
         $route->run($this->container);
     }
 
+    /** @internal */
     public function identifyRoute(WP $wp): ?Route
     {
         $routeName = $wp->query_vars[Utility::QUERY_VAR] ?? null;
