@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca0c6870afc3952b41f7b08c83ea193c",
+    "content-hash": "16c55f8042b989ab2f8efb9eb1cefaf2",
     "packages": [
         {
             "name": "brain/hierarchy",
@@ -74,12 +74,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/valenjeb/php-di.git",
-                "reference": "8b318556dfba01f6357a3fd5878356b90672d9be"
+                "reference": "f09671f3dc75b4bb94c4e48ade66927fe2b3ed8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/valenjeb/php-di/zipball/8b318556dfba01f6357a3fd5878356b90672d9be",
-                "reference": "8b318556dfba01f6357a3fd5878356b90672d9be",
+                "url": "https://api.github.com/repos/valenjeb/php-di/zipball/f09671f3dc75b4bb94c4e48ade66927fe2b3ed8a",
+                "reference": "f09671f3dc75b4bb94c4e48ade66927fe2b3ed8a",
                 "shasum": ""
             },
             "require": {
@@ -105,7 +105,7 @@
                 "issues": "https://github.com/valenjeb/php-di/issues",
                 "source": "https://github.com/valenjeb/php-di/tree/master"
             },
-            "time": "2022-11-28T08:44:59+00:00"
+            "time": "2022-12-14T09:58:17+00:00"
         },
         {
             "name": "devly/repository",
@@ -189,20 +189,20 @@
         },
         {
             "name": "nette/http",
-            "version": "v3.1.7",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/http.git",
-                "reference": "3d0f37872f2d699072b88f9c744b60b231d6402f"
+                "reference": "0e16cd4f911665679b96bf569318a0dc7f087eda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/http/zipball/3d0f37872f2d699072b88f9c744b60b231d6402f",
-                "reference": "3d0f37872f2d699072b88f9c744b60b231d6402f",
+                "url": "https://api.github.com/repos/nette/http/zipball/0e16cd4f911665679b96bf569318a0dc7f087eda",
+                "reference": "0e16cd4f911665679b96bf569318a0dc7f087eda",
                 "shasum": ""
             },
             "require": {
-                "nette/utils": "^3.1",
+                "nette/utils": "^3.2.1 || ~4.0.0",
                 "php": ">=7.2 <8.3"
             },
             "conflict": {
@@ -212,9 +212,9 @@
             "require-dev": {
                 "nette/di": "^3.0",
                 "nette/security": "^3.0",
-                "nette/tester": "^2.0",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.4"
+                "nette/tester": "^2.4",
+                "phpstan/phpstan": "^1.0",
+                "tracy/tracy": "^2.8"
             },
             "suggest": {
                 "ext-fileinfo": "to detect type of uploaded files"
@@ -222,7 +222,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -261,9 +261,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/http/issues",
-                "source": "https://github.com/nette/http/tree/v3.1.7"
+                "source": "https://github.com/nette/http/tree/v3.2.1"
             },
-            "time": "2022-10-13T01:29:13+00:00"
+            "time": "2022-12-05T00:03:40+00:00"
         },
         {
             "name": "nette/utils",
@@ -959,16 +959,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.2",
+            "version": "1.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d6fdf01c53978b6429f1393ba4afeca39cc68afa"
+                "reference": "709999b91448d4f2bb07daffffedc889b33e461c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d6fdf01c53978b6429f1393ba4afeca39cc68afa",
-                "reference": "d6fdf01c53978b6429f1393ba4afeca39cc68afa",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/709999b91448d4f2bb07daffffedc889b33e461c",
+                "reference": "709999b91448d4f2bb07daffffedc889b33e461c",
                 "shasum": ""
             },
             "require": {
@@ -998,7 +998,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.3"
             },
             "funding": [
                 {
@@ -1014,7 +1014,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-10T09:56:11+00:00"
+            "time": "2022-12-13T10:28:10+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1336,16 +1336,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.26",
+            "version": "9.5.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "851867efcbb6a1b992ec515c71cdcf20d895e9d2"
+                "reference": "a2bc7ffdca99f92d959b3f2270529334030bba38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/851867efcbb6a1b992ec515c71cdcf20d895e9d2",
-                "reference": "851867efcbb6a1b992ec515c71cdcf20d895e9d2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a2bc7ffdca99f92d959b3f2270529334030bba38",
+                "reference": "a2bc7ffdca99f92d959b3f2270529334030bba38",
                 "shasum": ""
             },
             "require": {
@@ -1418,7 +1418,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.26"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.27"
             },
             "funding": [
                 {
@@ -1434,7 +1434,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-10-28T06:00:21+00:00"
+            "time": "2022-12-09T07:31:23+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2602,16 +2602,16 @@
         },
         {
             "name": "szepeviktor/phpstan-wordpress",
-            "version": "v1.1.5",
+            "version": "v1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szepeviktor/phpstan-wordpress.git",
-                "reference": "3934e622e8434092aef69761d684281812fef868"
+                "reference": "27784541f184a1ea3b6656fc8a882bb9adf45fc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szepeviktor/phpstan-wordpress/zipball/3934e622e8434092aef69761d684281812fef868",
-                "reference": "3934e622e8434092aef69761d684281812fef868",
+                "url": "https://api.github.com/repos/szepeviktor/phpstan-wordpress/zipball/27784541f184a1ea3b6656fc8a882bb9adf45fc2",
+                "reference": "27784541f184a1ea3b6656fc8a882bb9adf45fc2",
                 "shasum": ""
             },
             "require": {
@@ -2655,7 +2655,7 @@
             ],
             "support": {
                 "issues": "https://github.com/szepeviktor/phpstan-wordpress/issues",
-                "source": "https://github.com/szepeviktor/phpstan-wordpress/tree/v1.1.5"
+                "source": "https://github.com/szepeviktor/phpstan-wordpress/tree/v1.1.6"
             },
             "funding": [
                 {
@@ -2667,7 +2667,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-11-12T15:03:29+00:00"
+            "time": "2022-12-01T14:56:51+00:00"
         },
         {
             "name": "theseer/tokenizer",
