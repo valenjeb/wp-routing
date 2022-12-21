@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Devly\WP\Routing\Routes;
 
+use Closure;
 use Devly\DI\Contracts\IContainer;
 use Devly\Exceptions\AbortException;
 use Devly\Utils\Pipeline;
@@ -14,6 +15,7 @@ use Devly\WP\Routing\Utility;
 use Nette\Http\Response;
 use RuntimeException;
 use Throwable;
+use WP_Query;
 
 use function add_filter;
 use function array_filter;
@@ -61,6 +63,8 @@ class Route extends RouteBase
     protected bool $patternParsed = false;
     protected IContainer $container;
     protected IResponse $response;
+    /** @var callable|Closure */
+    protected $queryManipulateCallback;
 
     /** @param callable|class-string|string|array<class-string|object, string>|null $callback */
     public function __construct(string $pattern, $callback = null)
@@ -292,6 +296,10 @@ class Route extends RouteBase
 
         $this->container = $container;
 
+        if (isset($this->queryManipulateCallback)) {
+            add_action('pre_get_posts', [$this, 'executeQueryManipulationCallback']);
+        }
+
         add_action('template_redirect', [$this, 'execute']);
     }
 
@@ -375,5 +383,30 @@ class Route extends RouteBase
         $regex = $this->mapping[$key] ?? '[-\w]+';
 
         return $isOptional ? '(?:\/(?P<' . $key . '>' . $regex . '))' : '(?P<' . $key . '>' . $regex . ')';
+    }
+
+    /**
+     * Manipulate the main WordPress query
+     *
+     * This callback will run in 'pre_get_posts' action hook.
+     *
+     * @param callable|Closure $callback
+     *
+     * @return static
+     */
+    public function manipulateQuery($callback): self
+    {
+        $this->queryManipulateCallback = $callback;
+
+        return $this;
+    }
+
+    public function executeQueryManipulationCallback(WP_Query $query): void
+    {
+        if (is_admin() || ! $query->is_main_query()) {
+            return;
+        }
+
+        call_user_func($this->queryManipulateCallback, $query);
     }
 }
