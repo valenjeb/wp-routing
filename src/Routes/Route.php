@@ -230,6 +230,10 @@ class Route extends RouteBase
     /** @return array<string, string> */
     public function getParamsFromPattern(string $pattern): array
     {
+        if ($pattern === '') {
+            return [];
+        }
+
         $regex = $this->getParametrizedRegexPattern();
         preg_match('/' . $regex . '/', $pattern, $matches, PREG_UNMATCHED_AS_NULL);
 
