@@ -74,12 +74,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/valenjeb/php-di.git",
-                "reference": "f09671f3dc75b4bb94c4e48ade66927fe2b3ed8a"
+                "reference": "31058e5d2b124a75c2f342a2c92a9a7907fe448a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/valenjeb/php-di/zipball/f09671f3dc75b4bb94c4e48ade66927fe2b3ed8a",
-                "reference": "f09671f3dc75b4bb94c4e48ade66927fe2b3ed8a",
+                "url": "https://api.github.com/repos/valenjeb/php-di/zipball/31058e5d2b124a75c2f342a2c92a9a7907fe448a",
+                "reference": "31058e5d2b124a75c2f342a2c92a9a7907fe448a",
                 "shasum": ""
             },
             "require": {
@@ -105,7 +105,7 @@
                 "issues": "https://github.com/valenjeb/php-di/issues",
                 "source": "https://github.com/valenjeb/php-di/tree/master"
             },
-            "time": "2022-12-14T09:58:17+00:00"
+            "time": "2022-12-22T09:42:08+00:00"
         },
         {
             "name": "devly/repository",
@@ -151,12 +151,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/valenjeb/php-utils.git",
-                "reference": "fa248c1b9c738f4f377ef29abed61c52e63ded2a"
+                "reference": "62d4e9bb9505bc6627e5cecd942782c59be61e91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/valenjeb/php-utils/zipball/fa248c1b9c738f4f377ef29abed61c52e63ded2a",
-                "reference": "fa248c1b9c738f4f377ef29abed61c52e63ded2a",
+                "url": "https://api.github.com/repos/valenjeb/php-utils/zipball/62d4e9bb9505bc6627e5cecd942782c59be61e91",
+                "reference": "62d4e9bb9505bc6627e5cecd942782c59be61e91",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                 "issues": "https://github.com/valenjeb/php-utils/issues",
                 "source": "https://github.com/valenjeb/php-utils/tree/master"
             },
-            "time": "2022-11-29T22:28:07+00:00"
+            "time": "2022-12-23T12:41:42+00:00"
         },
         {
             "name": "nette/http",
