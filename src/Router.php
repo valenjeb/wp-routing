@@ -34,6 +34,8 @@ class Router
     /** @var Routes<Ajax> */
     protected Routes $ajaxRoutes;
     protected bool $routeProcessed = false;
+    /** @var bool Whether all requests should be processed */
+    protected bool $handleAllRequests = false;
 
     public function __construct(?IContainer $container = null)
     {
@@ -266,6 +268,10 @@ class Router
 
         $route = $this->identifyRoute($wp);
 
+        if (! $route) {
+            return;
+        }
+
         $this->ensureRequiredServices();
 
         $request = $this->getRequest();
@@ -311,7 +317,11 @@ class Router
         $routeName = $wp->query_vars[Utility::QUERY_VAR] ?? null;
 
         if (! $routeName) {
-            return $this->createGeneralWebRoute($wp->request);
+            if ($this->handleAllRequests) {
+                return $this->createGeneralWebRoute($wp->request);
+            }
+
+            return null;
         }
 
         unset($wp->query_vars[Utility::QUERY_VAR]);
@@ -360,5 +370,25 @@ class Router
     protected function getRequest(): IRequest
     {
         return $this->container->get(IRequest::class);
+    }
+
+    /**
+     * Set whether all requests should be handled by the router.
+     *
+     * By default, only configured route paths are handled.
+     */
+    public function handleAllRequests(bool $all = true): self
+    {
+        $this->handleAllRequests = $all;
+
+        return $this;
+    }
+
+    /**
+     * Determines whether all requests should be handled by the router.
+     */
+    public function isHandleAllRequests(): bool
+    {
+        return $this->handleAllRequests;
     }
 }
