@@ -7,7 +7,7 @@ namespace Devly\WP\Routing;
 use Closure;
 use Devly\DI\Container;
 use Devly\DI\Contracts\IContainer;
-use Devly\DI\Exceptions\ContainerError;
+use Devly\DI\Exceptions\ContainerException;
 use Devly\Exceptions\RouteNotFoundException;
 use Devly\WP\Routing\Contracts\IRequest;
 use Devly\WP\Routing\Contracts\IRoute;
@@ -350,7 +350,7 @@ class Router
 
         try {
             $this->container->defineShared(HttpRequestFactory::class, HttpRequest::class)->return('@fromGlobals');
-        } catch (ContainerError $e) {
+        } catch (ContainerException $e) {
         }
 
         $this->container->alias(HttpRequestContract::class, HttpRequest::class);
