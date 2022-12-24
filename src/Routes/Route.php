@@ -235,7 +235,7 @@ class Route extends RouteBase
         }
 
         $regex = $this->getParametrizedRegexPattern();
-        preg_match('/' . $regex . '/', $pattern, $matches, PREG_UNMATCHED_AS_NULL);
+        @preg_match('/' . $regex . '/', $pattern, $matches, PREG_UNMATCHED_AS_NULL);
 
         if (! is_array($matches)) {
             $matches = [];
