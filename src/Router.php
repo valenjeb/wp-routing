@@ -44,8 +44,8 @@ class Router
         $this->ajaxRoutes = new Routes(); // @phpstan-ignore-line
 
         add_action('init', [$this, 'registerWebRoutes'], 1000);
-        add_action('parse_request', [$this, 'parseRequest'], 10);
-        add_action('admin_init', [$this, 'parseAjaxRequest'], 1000);
+        add_action('parse_request', [$this, 'handleRequest'], 10);
+        add_action('admin_init', [$this, 'handleAjaxRequest'], 1000);
     }
 
     /**
@@ -159,6 +159,14 @@ class Router
      */
     public function registerWebRoutes(): void
     {
+        if (! doing_action('init')) {
+            throw new LogicException(sprintf(
+                'Method "%s::%s" is meant to be used internally within the WordPress init hook.',
+                self::class,
+                __METHOD__
+            ));
+        }
+
         do_action(Hooks::ACTION_ALTER_ROUTES, $this);
 
         $rules = $this->getRewriteRules();
@@ -252,8 +260,16 @@ class Router
     }
 
     /** @internal */
-    public function parseRequest(WP $wp): void
+    public function handleRequest(WP $wp): void
     {
+        if (! doing_action('parse_request')) {
+            throw new LogicException(sprintf(
+                'Method \'%s::%s\' is meant to be used internally within the WordPress \'parse_request\' hook.',
+                self::class,
+                __METHOD__
+            ));
+        }
+
         if (is_admin() || $this->routeProcessed) {
             return;
         }
@@ -288,8 +304,16 @@ class Router
     }
 
     /** @internal */
-    public function parseAjaxRequest(): void
+    public function handleAjaxRequest(): void
     {
+        if (! doing_action('admin_init')) {
+            throw new LogicException(sprintf(
+                'Method \'%s::%s\' is meant to be used internally within the WordPress \'admin_init\' hook.',
+                self::class,
+                __METHOD__
+            ));
+        }
+
         if (! wp_doing_ajax() || ! isset($_REQUEST['action'])) {
             return;
         }
