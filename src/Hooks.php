@@ -16,4 +16,5 @@ class Hooks
     public const FILTER_404_CONTROLLER      = 'devly/routing/default_404_controller';
     public const ACTION_ALTER_ROUTES        = 'devly/routing/alter_routes';
     public const FILTER_CONTROLLER_METADATA = 'devly/routing/controller_metadata';
+    public const FILTER_HANDLE_ALL_REQUESTS = 'devly/routing/handle_all_requests';
 }

@@ -411,6 +411,6 @@ class Router
      */
     public static function isHandleAllRequests(): bool
     {
-        return self::$handleAllRequests;
+        return apply_filters(Hooks::FILTER_HANDLE_ALL_REQUESTS, self::$handleAllRequests);
     }
 }
