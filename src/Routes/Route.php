@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Devly\WP\Routing\Routes;
 
-use Closure;
 use Devly\DI\Contracts\IContainer;
 use Devly\Exceptions\AbortException;
-use Devly\Utils\Pipeline;
 use Devly\Utils\Str;
+use Devly\WP\Routing\Concerns\CanManipulateQuery;
+use Devly\WP\Routing\Concerns\CanSendTemplate;
 use Devly\WP\Routing\Contracts\IRequest;
 use Devly\WP\Routing\Contracts\IResponse;
 use Devly\WP\Routing\Utility;
 use Nette\Http\Response;
 use RuntimeException;
 use Throwable;
-use WP_Query;
 
 use function add_filter;
 use function array_filter;
@@ -40,6 +39,9 @@ use const PREG_UNMATCHED_AS_NULL;
 
 class Route extends RouteBase
 {
+    use CanManipulateQuery;
+    use CanSendTemplate;
+
     protected string $patternParamRegex = '/(\{[a-zA-Z_\-\?]+})/';
     /**
      * Pattern mapping
@@ -63,8 +65,6 @@ class Route extends RouteBase
     protected bool $patternParsed = false;
     protected IContainer $container;
     protected IResponse $response;
-    /** @var callable|Closure */
-    protected $queryManipulateCallback;
 
     /** @param callable|class-string|string|array<class-string|object, string>|null $callback */
     public function __construct(string $pattern, $callback = null)
@@ -280,10 +280,7 @@ class Route extends RouteBase
 
     public function run(IContainer $container): void
     {
-        $response = Pipeline::create($container)
-            ->send($container[IRequest::class])
-            ->through($this->middleware())
-            ->then(static fn () => null);
+        $response = $this->executeMiddleware($container, $container[IRequest::class]);
 
         if (! empty($response)) {
             try {
@@ -357,18 +354,6 @@ class Route extends RouteBase
         add_filter('template_include', [$this, 'sendTemplate'], 10);
     }
 
-    /** @internal */
-    public function sendTemplate(string $template): string
-    {
-        if (! isset($this->response)) {
-            return $template;
-        }
-
-        $this->response->send($this->container[IRequest::class], $this->container[Response::class]);
-
-        return Utility::EMPTY_PLACEHOLDER;
-    }
-
     protected function parseParamRegex(string $key, bool $isOptional): string
     {
         $regex = $this->mapping[$key] ?? '[-\w]+';
@@ -391,30 +376,5 @@ class Route extends RouteBase
         $regex = $this->mapping[$key] ?? '[-\w]+';
 
         return $isOptional ? '(?:\/(?P<' . $key . '>' . $regex . '))' : '(?P<' . $key . '>' . $regex . ')';
-    }
-
-    /**
-     * Manipulate the main WordPress query
-     *
-     * This callback will run in 'pre_get_posts' action hook.
-     *
-     * @param callable|Closure $callback
-     *
-     * @return static
-     */
-    public function manipulateQuery($callback): self
-    {
-        $this->queryManipulateCallback = $callback;
-
-        return $this;
-    }
-
-    public function executeQueryManipulationCallback(WP_Query $query): void
-    {
-        if (is_admin() || ! $query->is_main_query()) {
-            return;
-        }
-
-        call_user_func($this->queryManipulateCallback, $query);
     }
 }
