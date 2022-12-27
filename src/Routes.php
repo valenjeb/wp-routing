@@ -57,7 +57,7 @@ class Routes implements IteratorAggregate
      *
      * @template T of object
      */
-    public function addQueryRoute(array $args, $callback): Query
+    public function addQueryRoute(array $args = [], $callback = null): Query
     {
         $route = new Query($args, $callback);
 

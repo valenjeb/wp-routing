@@ -78,7 +78,7 @@ class Router
      *
      * @template T of object
      */
-    public function query(array $args, $callback = null): Query
+    public function query(array $args = [], $callback = null): Query
     {
         return $this->queryRoutes->addQueryRoute($args, $callback);
     }
