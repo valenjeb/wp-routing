@@ -7,6 +7,7 @@ namespace Devly\WP\Routing\Routes;
 use Devly\DI\Contracts\IContainer;
 use Devly\Exceptions\AbortException;
 use Devly\Utils\Str;
+use Devly\WP\Routing\Concerns\CanManipulateQuery;
 use Devly\WP\Routing\Concerns\CanSendTemplate;
 use Devly\WP\Routing\Contracts\IRequest;
 use Devly\WP\Routing\Contracts\IResponse;
@@ -27,6 +28,7 @@ use function urldecode;
 class Query extends RouteBase
 {
     use CanSendTemplate;
+    use CanManipulateQuery;
 
     public const OPERATOR_EQUALS       = '=';
     public const OPERATOR_NOT_EQUALS   = '!=';
