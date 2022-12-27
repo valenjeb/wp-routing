@@ -294,4 +294,10 @@ class Query extends RouteBase
 
         add_filter('template_include', [$this, 'sendTemplate'], 10);
     }
+
+
+    public function getParsedQueryVars(): array
+    {
+        return [];
+    }
 }
