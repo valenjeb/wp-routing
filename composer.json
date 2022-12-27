@@ -19,7 +19,8 @@
     "brain/hierarchy": "^3.2",
     "devly/php-di": "dev-master",
     "devly/utils": "dev-master",
-    "nette/http": "^3.2"
+    "nette/http": "^3.2",
+    "ext-json": "*"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
