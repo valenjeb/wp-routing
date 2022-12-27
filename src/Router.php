@@ -372,7 +372,7 @@ class Router
     }
 
     /** @internal */
-    public function identifyRoute(WP $wp): ?Route
+    public function identifyRoute(WP $wp): ?IRoute
     {
         $routeName = $wp->query_vars[Utility::QUERY_VAR] ?? null;
 
