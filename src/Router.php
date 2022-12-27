@@ -13,6 +13,7 @@ use Devly\WP\Routing\Contracts\IRequest;
 use Devly\WP\Routing\Contracts\IRoute;
 use Devly\WP\Routing\Responses\RedirectResponse;
 use Devly\WP\Routing\Routes\Ajax;
+use Devly\WP\Routing\Routes\Query;
 use Devly\WP\Routing\Routes\Route;
 use LogicException;
 use Nette\Http\IRequest as HttpRequestContract;
@@ -33,15 +34,18 @@ class Router
     protected Routes $webRoutes;
     /** @var Routes<Ajax> */
     protected Routes $ajaxRoutes;
+    /** @var Routes<Query> */
+    protected Routes $queryRoutes;
     protected bool $routeProcessed = false;
     /** @var bool Whether all requests should be processed */
     protected static bool $handleAllRequests = false;
 
     public function __construct(?IContainer $container = null)
     {
-        $this->container  = $container ?? new Container([], true, true);
-        $this->webRoutes  = new Routes(); // @phpstan-ignore-line
-        $this->ajaxRoutes = new Routes(); // @phpstan-ignore-line
+        $this->container   = $container ?? new Container([], true, true);
+        $this->webRoutes   = new Routes(); // @phpstan-ignore-line
+        $this->ajaxRoutes  = new Routes(); // @phpstan-ignore-line
+        $this->queryRoutes = new Routes();
 
         add_action('init', [$this, 'registerWebRoutes'], 1000);
         add_action('parse_request', [$this, 'handleRequest'], 10);
@@ -66,6 +70,17 @@ class Router
     public function web(string $pattern, $callback = null): Route
     {
         return $this->addRoute($pattern, $callback);
+    }
+
+    /**
+     * @param array<array{key: string, operator: string, value: mixed}>        $args
+     * @param callable|class-string<T>|string|array<class-string<T>|T, string> $callback
+     *
+     * @template T of object
+     */
+    public function query(array $args, $callback = null): Query
+    {
+        return $this->queryRoutes->addQueryRoute($args, $callback);
     }
 
     public function redirect(string $path, string $target, int $status = 302): Route
@@ -97,6 +112,11 @@ class Router
         } catch (RouteNotFoundException $e) {
         }
 
+        try {
+            return $this->getQueryRoute($name);
+        } catch (RouteNotFoundException $e) {
+        }
+
         return $this->getAjaxRoute($name);
     }
 
@@ -112,10 +132,26 @@ class Router
         return $this->ajaxRoutes->get($name);
     }
 
+    /** @throws RouteNotFoundException */
+    public function getQueryRoute(string $name): Query
+    {
+        return $this->queryRoutes->get($name);
+    }
+
+    /** @throws RouteNotFoundException if the provided route name does not exist. */
     public function removeRoute(string $name): void
     {
         try {
             $this->webRoutes->forget($name);
+
+            return;
+        } catch (RouteNotFoundException $e) {
+        }
+
+        try {
+            $this->queryRoutes->forget($name);
+
+            return;
         } catch (RouteNotFoundException $e) {
         }
 
@@ -341,6 +377,12 @@ class Router
         $routeName = $wp->query_vars[Utility::QUERY_VAR] ?? null;
 
         if (! $routeName) {
+            foreach ($this->queryRoutes as $route) {
+                if ($route->isSatisfied($wp)) { // @phpstan-ignore-line
+                    return $route;
+                }
+            }
+
             if (self::$handleAllRequests) {
                 return $this->createGeneralWebRoute($wp->request);
             }
