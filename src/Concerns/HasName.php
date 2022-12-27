@@ -16,7 +16,7 @@ trait HasName
     {
         if (empty($name)) {
             if (! isset($this->name)) {
-                $this->name = $this->generateUniqueRouteID($this->pattern);
+                $this->name = $this->generateUniqueRouteID($this->getPattern());
             }
 
             return $this->name;
