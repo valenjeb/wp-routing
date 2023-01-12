@@ -328,6 +328,14 @@ class Router
 
         $request = $this->getRequest();
 
+        if (!$route instanceof Route) {
+            throw new RuntimeException(sprintf(
+                'Invalid route matched. Web route expected to be a "%s" instance, Provided %s.',
+                Route::class,
+                get_class($route)
+            ));
+        }
+
         $vars = $route->getParsedQueryVars();
 
         if (! empty($vars)) {
