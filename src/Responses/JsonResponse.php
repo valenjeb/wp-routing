@@ -39,11 +39,6 @@ class JsonResponse implements IResponse
      */
     public function send(Request $request, HttpResponse $httpResponse): void
     {
-        $httpResponse->setHeader('Content-Type', 'application/json; charset=' . get_option('blog_charset'));
-        if ($this->getStatusCode() !== null) {
-            $httpResponse->setCode($this->getStatusCode());
-        }
-
-        echo wp_json_encode($this->getPayload(), JSON_PRETTY_PRINT);
+        wp_send_json($this->getPayload(), $this->getStatusCode(), JSON_PRETTY_PRINT);
     }
 }
