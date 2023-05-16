@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Devly\WP\Routing;
 
 use Devly\DI\Contracts\IContainer;
-use Devly\DI\Exceptions\ResolverError;
+use Devly\DI\Exceptions\ResolverException;
 use Devly\Utils\Str;
 use Devly\WP\Routing\Contracts\IRequest;
 use ReflectionException;
@@ -46,7 +46,7 @@ abstract class Controller
     /**
      * @return mixed|void
      *
-     * @throws ResolverError
+     * @throws ResolverException
      */
     public function run(IRequest $request)
     {

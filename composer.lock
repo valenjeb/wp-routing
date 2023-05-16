@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e71a189b09c911eb95b7bbd77f7354aa",
+    "content-hash": "c11ebaaf848a7e62d6d843f6a9a2eb16",
     "packages": [
         {
             "name": "brain/hierarchy",
@@ -70,16 +70,16 @@
         },
         {
             "name": "devly/php-di",
-            "version": "0.2.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/valenjeb/php-di.git",
-                "reference": "c7c9001165c521f7172de271a7c060ff20de35e5"
+                "reference": "04b37b83d36d9e5c76b44eb1ee3d6b7104aa7c69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/valenjeb/php-di/zipball/c7c9001165c521f7172de271a7c060ff20de35e5",
-                "reference": "c7c9001165c521f7172de271a7c060ff20de35e5",
+                "url": "https://api.github.com/repos/valenjeb/php-di/zipball/04b37b83d36d9e5c76b44eb1ee3d6b7104aa7c69",
+                "reference": "04b37b83d36d9e5c76b44eb1ee3d6b7104aa7c69",
                 "shasum": ""
             },
             "require": {
@@ -102,9 +102,9 @@
             "description": "PHP dependency injection container",
             "support": {
                 "issues": "https://github.com/valenjeb/php-di/issues",
-                "source": "https://github.com/valenjeb/php-di/tree/0.2.0"
+                "source": "https://github.com/valenjeb/php-di/tree/0.3.0"
             },
-            "time": "2023-01-24T07:58:53+00:00"
+            "time": "2023-05-15T12:17:31+00:00"
         },
         {
             "name": "devly/repository",
@@ -188,16 +188,16 @@
         },
         {
             "name": "nette/http",
-            "version": "v3.2.1",
+            "version": "v3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/http.git",
-                "reference": "0e16cd4f911665679b96bf569318a0dc7f087eda"
+                "reference": "9105c26de3dd47da5e7cf6b4132b5d871f835e25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/http/zipball/0e16cd4f911665679b96bf569318a0dc7f087eda",
-                "reference": "0e16cd4f911665679b96bf569318a0dc7f087eda",
+                "url": "https://api.github.com/repos/nette/http/zipball/9105c26de3dd47da5e7cf6b4132b5d871f835e25",
+                "reference": "9105c26de3dd47da5e7cf6b4132b5d871f835e25",
                 "shasum": ""
             },
             "require": {
@@ -260,9 +260,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/http/issues",
-                "source": "https://github.com/nette/http/tree/v3.2.1"
+                "source": "https://github.com/nette/http/tree/v3.2.2"
             },
-            "time": "2022-12-05T00:03:40+00:00"
+            "time": "2023-03-18T14:55:56+00:00"
         },
         {
             "name": "nette/utils",

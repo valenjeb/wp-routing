@@ -17,7 +17,7 @@
   "require": {
     "php": "^7.4",
     "brain/hierarchy": "^3.2",
-    "devly/php-di": "^0.2",
+    "devly/php-di": "^0.3",
     "devly/utils": "dev-master",
     "nette/http": "^3.2",
     "ext-json": "*"
