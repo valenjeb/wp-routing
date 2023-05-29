@@ -16,11 +16,11 @@
   },
   "require": {
     "php": "^7.4",
+    "ext-json": "*",
     "brain/hierarchy": "^3.2",
-    "devly/php-di": "^0.3",
+    "devly/php-di": ">0.3.0",
     "devly/utils": "dev-master",
-    "nette/http": "^3.2",
-    "ext-json": "*"
+    "nette/http": "^3.2"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
