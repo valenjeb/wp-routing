@@ -72,7 +72,7 @@ class Finder
 
     public function getNamespace(): string
     {
-        return empty($this->namespace) ? '' : trim($this->namespace, '\\') . '\\';
+        return empty($this->namespace) ? '' : trim(str_replace('.', '-', $this->namespace), '\\') . '\\';
     }
 
     /** @return mixed|null */
