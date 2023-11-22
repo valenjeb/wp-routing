@@ -35,7 +35,7 @@ class Finder
         $this->default   = apply_filters(Hooks::FILTER_DEFAULT_CONTROLLER, $default);
     }
 
-    /** @return array|string[] */
+    /** @return string[] */
     protected function getHierarchy(?WP_Query $query = null): array
     {
         $hierarchy = new Hierarchy();
@@ -75,8 +75,7 @@ class Finder
         return empty($this->namespace) ? '' : trim(str_replace('.', '-', $this->namespace), '\\') . '\\';
     }
 
-    /** @return mixed|null */
-    public function getSuffix()
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
