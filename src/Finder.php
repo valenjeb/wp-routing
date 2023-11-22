@@ -72,7 +72,7 @@ class Finder
 
     public function getNamespace(): string
     {
-        return empty($this->namespace) ? '' : trim(str_replace('.', '-', $this->namespace), '\\') . '\\';
+        return empty($this->namespace) ? '' : trim($this->namespace, '\\') . '\\';
     }
 
     public function getSuffix(): string
@@ -85,6 +85,6 @@ class Finder
      */
     protected function convert(string $name): string
     {
-        return $this->getNamespace() . Str::classify($name) . $this->getSuffix();
+        return $this->getNamespace() . Str::classify(str_replace('.', '-', $name)) . $this->getSuffix();
     }
 }
