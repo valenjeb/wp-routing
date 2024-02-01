@@ -15,7 +15,7 @@
     }
   },
   "require": {
-    "php": "^7.4",
+    "php": ">=7.4",
     "ext-json": "*",
     "brain/hierarchy": "^3.2",
     "devly/php-di": ">0.3.0",
